@@ -1,0 +1,26 @@
+ol { list-style-type:none;padding:3px 0 20px 0;border-top:2px solid #E0E0E0;margin:10px 0; }
+ol li a { display:block;padding:2px 10px;color:#2E3C1F;text-decoration:none; }
+ol li { float:none; margin:0 2px; }
+ol li a { display:block;padding:2px 10px;background-color:#E0E0E0;width:150px;color:#2E3C1F;text-decoration:none; }
+ol li a.current { background-color:#40611F;color:#FFFFFF; }
+ol li a:hover { background-color:#3C72B0; color:#FFFFFF; }
+
+/* .main { 
+border:10px solid #cccccc; 
+}
+.hdr{ 
+border:10px solid #bbbbbb; 
+}
+.menu{ 
+border:10px solid #dddddd; 
+}
+#content{ 
+border:10px solid #C0C0C0; 
+} */
+
+ul { list-style-type:none;padding:3px 0 20px 0;border-top:2px solid #E0E0E0;margin:10px 0; }
+ul li { float:left; margin:0 2px; }
+ul li a { display:block;padding:2px 10px;background-color:#E0E0E0;color:#2E3C1F;text-decoration:none; }
+ul li a.current { background-color:#40611F;color:#FFFFFF; }
+ul li a:hover { background-color:#3C72B0; color:#FFFFFF; }
+

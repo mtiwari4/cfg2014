@@ -1,0 +1,42 @@
+
+<html>
+
+<head>
+ <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.form.min.js"></script>
+    <script src="jquery.blockUI.js"/>
+  <script type="text/javascript">
+$(document).ready(function() { 
+	
+	var options = { 
+			target:   '#addMatchDiv',   // target element(s) to be updated with server response 
+					
+		}; 
+	 $('#addMatchInput').submit(function() { 
+			$(this).ajaxSubmit(options);  			
+			// always return false to prevent standard browser submit and page navigation 
+			return false; 
+		}); 
+}); 
+</script>
+</head>
+<body>
+<div id="addMatchDiv">
+<form name="addMatchInput" action="ajax/insertGames.php" method="post">
+ 
+Home Team<select name="team1">
+  <option value="amature">John</option>
+  <option value="professional">Hutchins</option>
+</select><br>
+Away Team<select name="team2">
+  <option value="amature">John</option>
+  <option value="professional">Hutchins</option>
+</select><br>
+
+Date <input type="datetime" name="matchDate"><br>
+<br>
+<input type="submit" value="Submit">
+</form>
+</div>
+</body>
+</html>

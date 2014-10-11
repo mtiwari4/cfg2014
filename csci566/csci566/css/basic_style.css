@@ -1,0 +1,220 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900);
+
+body {
+	background: #212121;
+	font-family: 'Roboto', Helvetica, Arial, sans-serif;
+	font-weight: 100;
+	/*border-width: 5px gray;
+	margin: 20px auto;*/
+	/*border: 10px;
+	box-shadow: 10px 10px 10px rgba(61,61,61,0.9);*/
+	text-align: center;
+}
+
+.title_body {
+	font-weight: 500;
+	font-size: 50px;
+	padding: 90px;
+	color: #ffffff;
+	margin-bottom: 30px;
+	margin-left: 190px;
+	margin-right: 190px;
+}
+
+.title_two_body {
+	font-weight: 500;
+	font-size: 50px;
+	padding: 50px;
+	color: #ffffff;
+}
+
+.small_body {
+	font-weight: 350;
+	font-size: 30px;
+	color: #ffffff;
+	background-size: 950px;
+	margin-bottom: 30px;
+	margin-left: 190px;
+	margin-right: 190px;
+}
+
+.smaller_body {
+	font-weight: 350;
+	font-size: 20px;
+	color: #ffffff;	
+	background-size: 950px;
+	margin-bottom: 30px;
+	margin-left: 190px;
+	margin-right: 190px;
+}
+
+.nav_button {
+	color: #212121;
+	border: 1px #1550101;
+}
+
+#search_bar {
+	text-align: center;
+	margin: auto;	
+	font-weight: 600;
+	margin-bottom: 300px;
+}
+
+body #find_plants_background_img {
+	background-image: url("find_plants_background.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 950px;
+}
+
+body #home_background_img {
+	background-image: url("national_wildlife_federation.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 950px;
+}
+
+body #plant_network_background {
+	background-image: url("plant_network_background.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 950px;
+}
+
+body #resource_links_background {
+	background-image: url("resource_links_background.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 950px;
+}
+
+body #community_projects_background_img {
+	background-image: url("community_projects_background_img.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 950px;
+}
+
+body #news_and_blogs_background_img {
+	background-image: url("news_and_blogs_background_img.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 950px;
+}
+
+body #donate_background_img {
+	background-image: url("donate_background_img.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 950px;
+}
+
+body #get_started_background_img {
+	background-image: url("get_started_background_img.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 950px;
+}
+
+#Home {
+	background-color: #A5FF23;
+}
+
+#Forum {
+	background-color: #A5FF23;
+	color: #212121;
+}
+
+#Resources {
+	background-color: #A5FF23;
+}
+
+#Community {
+	background-color: #A5FF23;
+}
+
+#MakeADifference {
+	background-color: #A5FF23;
+}
+
+#SignInUp {
+	background-color: #63421C;
+	color: #ffffff;
+}
+
+nav {
+	padding: 10px;
+	margin: 30px;
+	border: 5px #1550101;
+	width: 90%;
+	text-align: center;
+	margin: 20px auto;
+}
+
+
+nav a:hover {
+	color: #427fed; /*google blue*/
+	font-size: 17px;
+}
+
+header {
+	padding: 5px;
+	margin: 5px;
+	background-image: url("../images/space.jpg");
+	background-size: 100%;
+	background-size: cover;
+	background-position: center center;
+	/*background-position: 200px 100 px;
+	/*on the x axis, I want to be 200px from the left. on the y axis, I want to be 100px from the top.*/
+	background-repeat: no-repeat;
+	text-align: center;
+	color: white;
+	border-radius: 10px;
+	font-weight: 100;
+}
+
+section {
+	background: #ffffff;
+	padding: 30px;
+	margin: 30px;
+	border-radius: 10px;
+	box-shadow: 10px 10px 10px rgba(61,61,61, .9);
+}
+
+section img {
+	border-radius: 5px;
+	border: 4px;
+	box-shadow: 10px 10px 10px rgba(61,61,61, .9);
+	image-align: center;
+}
+
+form input, form textarea {
+	display: block;
+	font-family: 'Roboto', Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	width: 300px;
+	border: 1px solid #e5e5e5;
+	padding: 8px;
+	/*margin: 10px 0px;
+	given two parameters, its top and bottom, and left and right
+	given four parameters, its top and the clockwise*/	
+}
+
+form textarea:hover {
+	border-color: #427fed; /*google blue*/
+}
+
+form input:hover {
+	border-color: #427fed; /*google blue*/
+}
+
+form button {
+	background: #427fed;
+	color: white;
+	font-family: 'Roboto', Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	border: 0;
+	padding: 8px 16px;
+	border-radius: 3px;
+}
+

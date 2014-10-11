@@ -1,0 +1,266 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="robots" content="noindex,nofollow" />
+<title>jQuery HTML page Validation Plugin</title>
+<link
+	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
+	rel="stylesheet" type="text/css" />
+<style>
+.myErrors {
+	color: red;
+}
+</style>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"
+	type="text/javascript"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+	<script src="../csci566/js/jquery.validate.js" ></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"
+	type="text/javascript"></script>
+		<script type="text/javascript" src="../csci566/js/form2object.js"></script>
+<script type="text/javascript" src="../csci566/js/json22.js"></script>
+	
+<!-- <script
+	src="/basketball/js/jquery.ui.datepicker.js"
+	type="text/javascript"></script> -->
+	
+
+<script type="text/javascript">
+function insertSelected(value,selectedValue){
+	 var elSel = document.getElementById(value);
+	   var i;
+	   for (i = elSel.length - 1; i>=0; i--) {
+	     if (elSel.options[i].selected) {
+	  var inserl = document.getElementById(selectedValue);    
+
+	 	
+	 	var newElement  = elSel.options[elSel.selectedIndex];  
+	 	 try {
+	       inserl.add(elSel.options[i]); // standards compliant; doesn't work in IE
+	       inserl.options[inserl.length - 1].selected=false;
+	 	 }
+	     catch(ex) {
+	       inserl.add(elSel.options[i]); // IE only
+	     }
+
+	     }
+	   }
+	 } 
+function insertSelectedLeft(value,selectedValue){
+	 var elSel = document.getElementById(selectedValue);
+	   var i;
+	   for (i = elSel.length - 1; i>=0; i--) {
+	     if (elSel.options[i].selected) {
+	  var inserl = document.getElementById(value);    
+
+	 	
+	 	var newElement  = elSel.options[elSel.selectedIndex];  
+	 	 try {
+	       inserl.add(elSel.options[i]); // standards compliant; doesn't work in IE
+	       inserl.options[inserl.length - 1].selected=false;
+	 	 }
+	     catch(ex) {
+	       inserl.add(elSel.options[i]); // IE only
+	     }
+
+	     }
+	   }
+	 } 
+$(document).ready(function() {
+	$.get( "ajax/getTeams.php", function( data ) {
+	 	//  $( ".addCoachMainDiv" ).html( data );
+	 	var inserl = document.getElementById('refereeTeamBox');  
+	 	 obj = $.parseJSON(data);
+	 	for (var prop in obj) {
+	 		  if (obj.hasOwnProperty(prop)) { 
+	 		  // or if (Object.prototype.hasOwnProperty.call(obj,prop)) for safety...
+	 		    //alert("prop: " + prop + " value: " + obj.prop)
+	 		   var elOptNew = document.createElement('option');
+	 		     elOptNew.text =  prop;
+	 		     elOptNew.value = obj[prop]; 
+	 		 	inserl.add(elOptNew); // standards compliant; doesn't work in IE
+	 		 	
+	 		  }
+	 		} 
+	 	});
+ //$("#myDate").datepicker();
+  
+ // change default settings 
+ jQuery.validator.setDefaults({
+  
+  errorPlacement: function(error, element) {
+      error.appendTo(element.parent().find('div.myErrors'));
+     }
+ });
+  
+ $("#refereeDivForm").validate({
+   rules: {
+     
+	   // mandatory field Team name
+	    refereefNameBox: "required",
+	    refereelNameBox: "required",
+   
+	    refereeSelectedTeamBox: "required",
+	    refereeAddressBox  : "required",
+	    refereeTelBox:"required",
+	    refereeEmail:"required"
+    
+  },
+   
+  //custom error messages
+        messages: {
+        	refereefNameBox:{
+          required: "Please enter your First name"
+          },
+          refereelNameBox:{
+            required: "Please enter your Last name"
+            },
+            refereeSelectedTeamBox:{
+            required: "Pease select atleast one Team"
+                },
+                refereeAddressBox:{
+            required: "Pease specify your address"
+        },
+        refereeTelBox:{
+        	required: "Pease enter your Telephone"
+        },
+        refereeEmail:{
+        	required:"Please enter your email"
+        }
+
+        
+        },
+         
+        // on page submit 
+        submitHandler: function(){
+          var formData = form2object('refereeDivForm', '.', true,
+  				function(node)
+  				{
+  					if (node.id && node.id.match(/callbackTest/))
+  					{
+  						return { name: node.id, value: node.innerHTML };
+  					}
+  				})
+  				//Pick selected coaches 
+        		        	var elSel = document.getElementById('refereeSelectedTeamBox');
+        		      	   var i;
+        		      	 var teams = new  Array();
+        		      	   for (i = elSel.length - 1; i>=0; i--) {
+        		      		 if(elSel.options[i].value=="Drag Here")continue;
+        		      		teams[i] = elSel.options[i].value;
+        		      	   }
+        	  $("#refereeDivHolder").load("../csci566/ajax/insertReferee.php",{formData : JSON.stringify(formData, null, '\t')},
+        			  
+        			  function( response, status, xhr ) {
+        		  if ( status == "error" ) {
+        			    var msg = "Sorry but there was an error: ";
+        			    $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
+        			  }else{
+        					  $("#refereeDivHolder1").load("../csci566/ajax/insertRefereeTeam.php",{response : JSON.stringify(teams, null, '\t'),data:response});
+            		          
+        		      	   console.log( {response: JSON.stringify(teams, null, '\t')});
+        			  }
+        			  
+        			});
+         
+        }
+ 
+ 
+ });
+  
+	
+});
+</script>
+</head>
+<body>
+
+<div id="refereeDivHolder">
+
+		<div id="refereeDiv">
+			<form id="refereeDivForm" name="refereeDivForm" method="POST" action="">
+				<fieldset>
+					<legend>
+						<b>&nbsp;&nbsp;&nbsp;Add a new Referee&nbsp;&nbsp;&nbsp;</b>
+					</legend>
+					<table>
+						<tr>
+							<td valign="top"><label for="refereefNameBox"> First name
+							</label></td>
+							<td><input id="refereefNameBox" type="text" name="refereefNameBox"
+								size="25" value="" />
+								<div class="myErrors"></div></td>
+						</tr>
+						<tr>
+			<tr>
+							<td valign="top"><label for="refereelNameBox"> Last name
+							</label></td>
+							<td><input id="refereelNameBox" type="text" name="refereelNameBox"
+								size="25" value="" />
+								<div class="myErrors"></div></td>
+						</tr>
+						<tr>
+		
+							<td valign="top"><label for="refereeTeamBox"> Team
+							</label></td>
+							<td><select id="refereeTeamBox"  name="refereeTeamBox[]" multiple="multiple" >
+								</select>
+								<input type="button" value="<=" onclick="insertSelectedLeft('refereeTeamBox','refereeSelectedTeamBox');" />
+								<input type="button" value="=>" onclick="insertSelected('refereeTeamBox','refereeSelectedTeamBox');" />
+						
+							
+								<label for="refereeSelectedTeamBox"> Selected 
+							</label>
+								<select id="refereeSelectedTeamBox"  name="refereeSelectedTeamBox[]" multiple="multiple" >
+								<option>Drag Here</option>
+								</select>
+								<div class="myErrors"></div></td>
+								
+						</tr>
+					
+					<tr>
+					<td valign="top"><label for="refereeAddressBox"> Address
+							</label></td>
+							<td><textarea rows="4" cols="30" id="refereeAddressBox" 
+							 name="refereeAddressBox"  ></textarea>
+								<div class="myErrors"></div></td>
+					</tr>
+						<tr>
+							<td valign="top"><label for="refereeTelBox"> Telephone </label></td>
+							<td><input id="refereeTelBox" type="text" name="refereeTelBox"
+								size="25" value="" />
+								<div class="myErrors"></div></td>
+						</tr>
+						<tr>
+							<td valign="top"><label for=refereeMobileBox> Mobile </label></td>
+							<td><input id="refereeMobileBox" type="text" name="refereeMobileBox"
+								size="25" value="" />
+								<div class="myErrors"></div></td>
+						</tr>
+						<tr>
+							<td valign="top"><label for="refereeEmail"> Email </label></td>
+							<td><input id="refereeEmail" type="text" name="refereeEmail" size="25"
+								value="" />
+								<div class="myErrors"></div></td>
+						</tr>
+						<tr>
+							<td colspan="2">&nbsp;</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td><input id="addRefereeForm" type="submit"
+								value="Add Referee" /></td>
+						</tr>
+						
+						
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+<div id="refereeDivHolder1">
+</div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<html>
+<head>
+
+<script type="text/javascript">
+
+function myFunction()
+{
+ var elSel = document.getElementById('element');
+  var i;
+  for (i = elSel.length - 1; i>=0; i--) {
+    if (elSel.options[i].selected) {
+    var value =elSel.options[i].value;
+    }
+  }
+  $("#loadHere1").load("../db/getData",{value:value});
+}
+</script>
+</head>
+<body>
+
+<select name='element' id='element'>
+
+<option value="select"></option>
+</select>
+<button type='button' onclick='myFunction()' name='submit'>Fetch Details!</button> 
+<div id='loadHere1'></div>
+
+</body>
+</html>

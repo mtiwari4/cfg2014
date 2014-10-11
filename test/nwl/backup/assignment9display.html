@@ -1,0 +1,94 @@
+ <!doctype html>
+ <html>
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+$(function() {
+$.get( "../backup/getLastNames.php", function( data ) {
+	 	var inserl = document.getElementById('Employees');  
+	 	 obj = $.parseJSON(data);
+	 	for (var prop in obj) {
+	 		  if (obj.hasOwnProperty(prop)) { 
+	 		   var elOptNew = document.createElement('option');
+	 		     elOptNew.text =  prop;
+	 		     elOptNew.value = prop; 
+	 		 	inserl.add(elOptNew); // standards compliant; doesn't work in IE
+	 		  }
+	 		} 
+	 	});
+
+$.get( "../backup/getCity.php", function( data ) {
+	 	var inserl = document.getElementById('city');  
+	 	 obj = $.parseJSON(data);
+	 	for (var prop in obj) {
+	 		  if (obj.hasOwnProperty(prop)) { 
+	 		   var elOptNew = document.createElement('option');
+	 		     elOptNew.text =  prop;
+	 		     elOptNew.value = prop; 
+	 		 	inserl.add(elOptNew); // standards compliant; doesn't work in IE
+	 		  }
+	 		} 
+	 	});
+
+});
+
+function fn1()
+{
+ var elSel = document.getElementById('Employees');
+  var i;
+  for (i = elSel.length - 1; i>=0; i--) {
+    if (elSel.options[i].selected) {
+    var value =elSel.options[i].value;
+    }
+  }
+  $("#content").load("../backup/assignment9fetchdata1.php",{value:value});
+}
+	 
+function fn2()
+{
+ var elSel = document.getElementById('city');
+  var i;
+  for (i = elSel.length - 1; i>=0; i--) {
+    if (elSel.options[i].selected) {
+    var value =elSel.options[i].value;
+    }
+  }
+  $("#content").load("../backup/assignment9fetchdata2.php",{value:value});
+}	
+</script>
+</head>
+ <body>
+ <header>
+ <h1 align = "center">Name : Vama sivananda reddy talapula, ZId : z1727588, database-566, section 2 </h1>
+ </header>
+ 
+ <section>
+ <article>
+ <hgroup>
+ <p align = "center">
+ 
+ <p> Select employee's Last name : </p>
+ <select name = "Employees" id = "Employees">
+ <option value = ""> Select </option>
+ </select>
+ 
+ <input type = "submit"  value = "SUBMIT" id="fetchonequery"  onclick='fn1()' >
+ <br>
+
+  <p align = "center">
+ 
+ <p> Select city : </p>
+ <select name = "city" id="city">
+ <option value = ""> Select </option>
+ </select>
+ 
+ <input type = "submit"  value = "SUBMIT" id = "fetchtwoquery" onclick='fn2()' >
+ 
+<div id ="content"></div>
+ 
+ </article>
+ </section>
+ </body>
+ </html>

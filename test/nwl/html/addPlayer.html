@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link
+	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
+	rel="stylesheet" type="text/css" />
+<style>
+.myErrors {
+	color: red;
+}
+</style>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"
+	type="text/javascript"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+	<script src="../csci566/js/jquery.validate.js" ></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"
+	type="text/javascript"></script>
+		<script type="text/javascript" src="../csci566/js/form2object.js"></script>
+<script type="text/javascript" src="../csci566/js/json22.js"></script>
+	
+<!-- <script
+	src="/basketball/js/jquery.ui.datepicker.js"
+	type="text/javascript"></script> -->
+	
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$.get( "ajax/getTeams.php", function( data ) {
+	 	var inserl = document.getElementById('myTeam');  
+	 	 obj = $.parseJSON(data);
+	 	for (var prop in obj) {
+	 		  if (obj.hasOwnProperty(prop)) { 
+	 		   var elOptNew = document.createElement('option');
+	 		     elOptNew.text =  prop;
+	 		     elOptNew.value = obj[prop]; 
+	 		 	inserl.add(elOptNew); // standards compliant; doesn't work in IE
+	 		 	
+	 		  }
+	 		} 
+	 	});
+	 
+  
+ // change default settings 
+ jQuery.validator.setDefaults({
+  
+  errorPlacement: function(error, element) {
+      error.appendTo(element.parent().find('div.myErrors'));
+     }
+ });
+  
+
+/*  jQuery.validator.addMethod(
+     "usaDate",
+     function(value, element) {
+      console.log(value);
+      var date = getDateFromFormat(value,'MM/dd/yyyy');
+      console.log(date);
+      if (date == 0) { 
+       return false; 
+      }
+      return true;
+     },
+     "Please enter a date in the format mm/dd/yyyy"
+ );
+   */
+  
+ $("#addPlayerFormId").validate({
+   rules: {
+     
+	   // mandatory field first name
+	    myFnameBox: "required",
+	 // mandatory field first name
+	    myLnameBox: "required",
+	    
+    // mandatory entry
+    myGender: "required",
+   
+    // mandatory entry and valid email address
+    myEmail: {
+        required: true,
+        email: true
+      },
+      
+       
+    // madatory date entry and valid date format  
+      myDate : {
+         required: true
+                },
+             
+          // mandatory radio button selection  
+     myGender: "required",
+     myTeam:"required",
+    
+     
+    // mandatory field height
+    myHeightBox: "required",
+ // mandatory field weight
+    myWeightBox: "required",
+ // mandatory field height
+    myPhoneBox: "required",
+    myPosition: "required"
+  },
+   
+  //custom error messages
+        messages: {
+        	myFnameBox:{
+          required: "Please enter your first name."
+          },
+      	myLnameBox:{
+            required: "Please enter your last name."
+            },
+		myEmail:{
+            required: "Pease enter your email."
+                },
+        myGender:{
+            required: "Pease select your gender."
+        },
+        myHeightBox:{
+        required: "Pease enter your height."
+        		},
+        myWeightBox:{
+        required: "Pease enter your weight."
+        },
+        myPhoneBox:{
+        required: "Pease enter your phone."
+        },
+        myPosition:{
+        required: "Pease enter your preffered position."
+        },
+        myTeam:{
+             required: "Please select your team."
+             } 
+        
+        },
+         
+        // on page submit 
+        submitHandler: function(){
+          var formData = form2object('addPlayerFormId', '.', true,
+  				function(node)
+  				{
+  					if (node.id && node.id.match(/callbackTest/))
+  					{
+  						return { name: node.id, value: node.innerHTML };
+  					}
+  				})
+  				
+        	  $("#addPlayerMainDiv").load("../csci566/ajax/insertPlayer.php",{formData : JSON.stringify(formData, null, '\t')});
+         
+        }
+      
+ 
+ });
+ $("#myDate").datepicker({ dateFormat: 'yy-mm-dd' });
+ 
+});
+</script>
+</head>
+<body>
+	<div id="addPlayerMainDiv">
+
+		<div id="addPlayer">
+			<form id="addPlayerFormId" name="addPlayerFormId" method="POST" action="">
+				<fieldset>
+					<legend>
+						<b>&nbsp;&nbsp;&nbsp;Add a new Player&nbsp;&nbsp;&nbsp;</b>
+					</legend>
+					<table>
+						<tr>
+							<td valign="top"><label for="myFnameBox"> First name
+							</label></td>
+							<td><input id="myFnameBox" type="text" name="myFnameBox"
+								size="50" value="" />
+								<div class="myErrors"></div></td>
+						</tr>
+						<tr>
+							<td valign="top"><label for="myLnameBox"> Last Name
+							</label></td>
+							<td><input id="myLnameBox" type="text" name="myLnameBox"
+								size="50" value="" />
+								<div class="myErrors"></div></td>
+						</tr>
+						<tr>
+							<td valign="top"><label for="myEmail"> Email </label></td>
+							<td><input id="myEmail" type="text" name="myEmail" size="50"
+								value="" />
+								<div class="myErrors"></div></td>
+						</tr>
+						<tr>
+							<td valign="top"><label for="myDate"> Date of Birth
+							</label></td>
+							<td><input id="myDate" type="text" name="myDate" size="10"
+								value="" />
+								<div class="myErrors"></div></td>
+						</tr>
+						<tr>
+							<td valign="top"><label for="myGender"> Gender </label></td>
+							<td><input type="radio" name="myGender" value="F" /> Female
+								<input type="radio" name="myGender" value="M" /> Male <input
+								type="radio" name="myGender" value="O" /> Other
+								<div class="myErrors"></div></td>
+						</tr>
+						<tr>
+							<td valign="top"><label for="myHeightBox"> Height </label></td>
+							<td><input id="myHeightBox" type="text" name="myHeightBox"
+								size="50" value="" />
+								<div class="myErrors"></div></td>
+						</tr>
+						<tr>
+							<td valign="top"><label for=myWeightBox> Weight </label></td>
+							<td><input id="myWeightBox" type="text" name="myWeightBox"
+								size="50" value="" />
+								<div class="myErrors"></div></td>
+						</tr>
+						<tr>
+							<td valign="top"><label for=myPhoneBox> Phone </label></td>
+							<td><input id="myPhoneBox" type="text" name="myPhoneBox"
+								size="50" value="" />
+								<div class="myErrors"></div></td>
+						</tr>
+						<tr>
+							<td valign="top"><label for="myPosition"> Position </label>
+							</td>
+							<td><select id="myPosition" name="myPosition"
+								title="Please select your preffered position">
+									<option value="">Choose one</option>
+									<option value="pointGaurd">Point Gaurd</option>
+									<option value="shootingGaurd">Shooting Gaurd</option>
+									<option value="smallForward">Small Forward</option>
+									<option value="powerForward">Power Forward</option>
+									<option value="center">Center</option>
+							</select>
+								<div class="myErrors"></div></td>
+						</tr>
+						<tr>
+							<td valign="top"><label for="myTeam"> Team </label></td>
+							<td><select id="myTeam" name="myTeam"
+								title="Please select your team">
+									<option value="">Choose one</option>
+							</select>
+								<div class="myErrors"></div></td>
+						</tr>
+
+						<tr>
+							<td colspan="2">&nbsp;</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td><input id="addPlayerForm" type="submit"
+								value="Add Player" /></td>
+						</tr>
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+
+
+	<div></div>
+</body>
+</html>

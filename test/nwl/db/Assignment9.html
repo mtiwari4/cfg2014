@@ -1,0 +1,87 @@
+<!--
+Z ID    : Z1727212		NAME     : AMANULLA SHAIK
+ASSIGN  : 8             DUE DATE : Mar 4
+COURSE  : CSCI 566      SECTION  : 3
+-->
+
+   
+   <!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+$(function() {
+	/*
+	Captures the user actions and displays the search results from database.
+	By default displays the search by last name and upon mouse click loads 
+	the results from corresponding tables by invoking corresponding pdp files
+	 by passing selected dropdown values.
+	*/
+	 $("#loadHere").load("../db/screen1.php");
+	  $("#SearchbyName").click(function(){
+	    	 $("#loadHere").load("../db/screen1.php");
+	 });
+		    $("#SearchbyCity").click(function(){
+		    	 $("#loadHere").load("../db/screen2.php");
+		 });
+});
+	
+</script>
+</head>
+<body>
+ 
+<table align="center">
+		<tr>
+			<td><b>Z ID</b></td>
+			<td> Z1727212</td>
+			<td></td>
+			<td><b>NAME</b></td>
+			<td> AMANULLA SHAIK</td>
+		</tr>
+		<tr>
+			<td> <b>ASSIGN</b></td>
+			<td align="center"> 9</td>
+			<td></td>
+			<td><b>DUE DATE</b></td>
+			<td align="center"> APR 11</td>
+		</tr>
+		<tr>
+			<td><b>CSCI</b></td>
+			<td align="center"> 566</td>
+			<td></td>
+			<td><b>SECTION</b> </td>
+			<td align="center"> 3</td>
+		</tr>
+	</table></br></br>
+	<fieldset>
+			<legend>
+				<b>&nbsp;&nbsp;&nbsp;Description&nbsp;&nbsp;&nbsp;</b>
+			</legend>
+			<p>
+			<b>Search by LastName : </b> This provides a search functionality for employee personnal details. The employee name 
+										(first and last), the city and state of the office where they work are fetched 
+										based on input employee last name.
+			  
+			</p>
+			<p>
+			<b>Search by City : </b>  This provides a search functionality for employee work details.when user selects a city, 
+									  the page displays a list of last names of the people who work in that office.
+			</p>
+			<p >
+			<b>Usage : </b>Select an option search by last name or city and click on FetchDetails! to see the results. </p>
+			</fieldset>
+		<fieldset>
+			<legend>
+				<b>&nbsp;&nbsp;&nbsp;Search Panel&nbsp;&nbsp;&nbsp;</b>
+			</legend>
+ <div id="container" align="center" style="width:100%;" class="main">
+ <a id="SearchbyName" href="#">Search by LastName</a>  
+  <a id="SearchbyCity" href="#">Search by City</a>
+  </div>
+   </br></br>
+<div id='loadHere' align="center"></div>
+   </fieldset>
+   </body>
+</html>
+  

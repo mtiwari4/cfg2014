@@ -1,0 +1,42 @@
+
+<html>
+ <head>
+  <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.form.min.js"></script>
+    <script src="jquery.blockUI.js"/>
+  <script type="text/javascript">
+$(document).ready(function() { 
+	
+	var options = { 
+			target:   '#coachDiv',   // target element(s) to be updated with server response 
+					
+		}; 
+	 $('#addCoachInput').submit(function() { 
+			$(this).ajaxSubmit(options);  			
+			// always return false to prevent standard browser submit and page navigation 
+			return false; 
+		}); 
+}); 
+</script>
+</head>
+<body>
+<div id="coachDiv">
+<form id="addCoachInput" action="ajax/insertCoach.php" method="post">
+ First name: <input type="text" name="coachfname"><br>
+  Last name: <input type="text" name="coachlname"><br>
+Team<select name="teamSelect">
+  <option value="amature">John</option>
+  <option value="professional">Hutchins</option>
+</select><br>
+
+Address<br><textarea name ="area"rows="4" cols="30">
+
+</textarea> <br>
+Telephone: <input type="tel" name="coachtel"><br>
+Mobile: <input type="text" name="coachmob"><br>
+E-mail: <input type="text" name="email"><br>
+<input type="submit" value="Submit">
+</form>
+</div>
+</body>
+</html>

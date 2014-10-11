@@ -1,0 +1,104 @@
+<html>
+  <head>
+<script type="text/javascript"
+             src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+
+<script  type="text/javascript">
+$(document).ready(
+    function(){
+    	 $("#currentDiv").load('ajax/getEventsPanel.php',{time:"default"}); 
+    	 
+ 	    $('#currentID').change(function() {//do something when the user clicks the box
+				if(this.checked)
+				{
+ 	        $("#currentDiv").load('ajax/getEventsPanel.php',{time :"current"}); 
+ 	        $("#currentDiv").show();
+				}else{
+			    $("#currentDiv").hide();
+				}
+ 	    });
+
+ 	    $('#scheduledID').change(function() {//do something when the user clicks the box
+ 	    	if(this.checked)
+ 	    	{
+ 	    	$("#scheduledDiv").load('ajax/getEventsPanel.php',{time :"scheduled"}); 
+ 	    	$("#scheduledDiv").show();
+ 	    	}
+ 	    	else
+ 	    		$("#scheduledDiv").hide();
+ 	    });
+
+ 	    $('#pastID').change(function() {//do something when the user clicks the box
+ 	       if(this.checked)
+ 	       {
+ 	        $("#pastDiv").load('ajax/getEventsPanel.php',{time :"past"}); 
+ 	        $("#pastDiv").show();
+  	       }
+  	       else
+ 	    	   $("#pastDiv").hide();
+ 	    });
+	    $('#searchbox').keyup(
+	            function(){
+	                var searchText = $(this).val();
+	                if (searchText.length > 0) {
+	                    $('tbody td:contains('+searchText+')')
+	                        .addClass('searchResult');
+	                    $('.searchResult')
+	                        .not(':contains('+searchText+')')
+	                        .removeClass('searchResult');
+	                    
+	                    $('tbody tr')
+	                        .not(':contains('+searchText+')')
+	                        .addClass('faded');
+	                    $('.faded:contains('+searchText+')')
+	                        .removeClass('faded');
+	                    
+	                    $('.faded').hide();
+	                    $('.searchResult').show();
+	                    
+	                }
+	                else if (searchText.length == 0) {
+	                    $('.searchResult').removeClass('searchResult');
+	                    $('.faded').removeClass('faded');  
+	                    $('td').show();
+	                }
+	            });
+	 
+    });
+</script>
+    	
+<style type="text/css">
+
+td {
+    border: 1px solid #000;
+    padding: 0.4em 1em;
+    background-color: #fff;
+}
+
+td.searchResult {
+    background-color: #ffa;
+}
+td.faded {
+    opacity: 0.2;
+}
+</style>
+</head>
+   <body>
+<table align="center">
+    <thead >
+			<tr>
+				<td colspan="4"><label for="searchbox">Search:</label> <input
+					type="text" id="searchbox" />
+					<input type="checkbox" id="currentID" value="Teams">Current
+					<input type="checkbox" id="scheduledID" value="Players">Scheduled
+					<input type="checkbox" id="pastID" value="Coach">Past
+				</td></tr>
+		</thead>
+</table>
+<div align="center" id="eventsDiv"> </div>
+<div align="center" id="currentDiv"> </div>
+<div align="center" id="scheduledDiv"> </div>
+<div align="center" id="pastDiv"> </div>
+   </body>
+   
+</html>

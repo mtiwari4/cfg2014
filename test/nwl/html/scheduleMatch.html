@@ -1,0 +1,288 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="robots" content="noindex,nofollow" />
+<title>jQuery HTML page Validation Plugin</title>
+<link
+	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
+	rel="stylesheet" type="text/css" />
+<style>
+.myErrors {
+	color: red;
+}
+</style>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"
+	type="text/javascript"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+	<script src="../csci566/js/jquery.validate.js" ></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"
+	type="text/javascript"></script>
+		<script type="text/javascript" src="../csci566/js/form2object.js"></script>
+<script type="text/javascript" src="../csci566/js/json22.js"></script>
+	
+<!-- <script
+	src="/basketball/js/jquery.ui.datepicker.js"
+	type="text/javascript"></script> -->
+	
+
+<script type="text/javascript">
+function insertSelected(value,selectedValue){
+	 var elSel = document.getElementById(value);
+	   var i;
+	   for (i = elSel.length - 1; i>=0; i--) {
+	     if (elSel.options[i].selected) {
+	  var inserl = document.getElementById(selectedValue);    
+
+	 	
+	 	var newElement  = elSel.options[elSel.selectedIndex];  
+	 	 try {
+	       inserl.add(elSel.options[i]); // standards compliant; doesn't work in IE
+	       inserl.options[inserl.length - 1].selected=false;
+	 	 }
+	     catch(ex) {
+	       inserl.add(elSel.options[i]); // IE only
+	     }
+
+	     }
+	   }
+	 } 
+function insertSelectedLeft(value,selectedValue){
+	 var elSel = document.getElementById(selectedValue);
+	   var i;
+	   for (i = elSel.length - 1; i>=0; i--) {
+	     if (elSel.options[i].selected) {
+	  var inserl = document.getElementById(value);    
+
+	 	
+	 	var newElement  = elSel.options[elSel.selectedIndex];  
+	 	 try {
+	       inserl.add(elSel.options[i]); // standards compliant; doesn't work in IE
+	       inserl.options[inserl.length - 1].selected=false;
+	 	 }
+	     catch(ex) {
+	       inserl.add(elSel.options[i]); // IE only
+	     }
+
+	     }
+	   }
+	 } 
+$(document).ready(function() {
+ // change default settings 
+ $.get( "ajax/getTeams.php", function( data ) {
+	 	var inserl = document.getElementById('homeTeamNameBox');  
+	 	var inser2 = document.getElementById('oponentTeamNameBox');  
+	 	 obj = $.parseJSON(data);
+	 	for (var prop in obj) {
+	 		  if (obj.hasOwnProperty(prop)) { 
+	 		   var elOptNew = document.createElement('option');
+	 		     elOptNew.text =  prop;
+	 		     elOptNew.value = obj[prop]; 
+	 		    var elOptNew1 = document.createElement('option');
+	 		     elOptNew1.text =  prop;
+	 		     elOptNew1.value = obj[prop]; 
+	 		 	inserl.add(elOptNew); // standards compliant; doesn't work in IE
+	 		 	inser2.add(elOptNew1); 
+	 		  }
+	 		} 
+	 	});
+ 	$.get( "ajax/getReferees.php", function( data ) {
+		 	//  $( ".addCoachMainDiv" ).html( data );
+		 	var inserl = document.getElementById('matchRefereeBox');  
+		 	 obj = $.parseJSON(data);
+		 	for (var prop in obj) {
+		 		  if (obj.hasOwnProperty(prop)) { 
+		 		  // or if (Object.prototype.hasOwnProperty.call(obj,prop)) for safety...
+		 		    //alert("prop: " + prop + " value: " + obj.prop)
+		 		   var elOptNew = document.createElement('option');
+		 		     elOptNew.text =  prop;
+		 		     elOptNew.value = obj[prop]; 
+		 		 	inserl.add(elOptNew); // standards compliant; doesn't work in IE
+		 		 	
+		 		  }
+		 		} 
+		 	});
+ 	 $("#myDate").datepicker({ dateFormat: 'yy-mm-dd' });
+ 	
+ jQuery.validator.setDefaults({
+  
+  errorPlacement: function(error, element) {
+      error.appendTo(element.parent().find('div.myErrors'));
+     }
+ });
+  
+ $("#scheduleMatchForm").validate({
+   rules: {
+     
+	   // mandatory field Team name
+	    homeTeamNameBox: "required",
+	    oponentTeamNameBox:"required",
+	    	matchSelectedCoachBox: "required",
+   
+	    	matchSelectedPlayerBox: "required",
+    matchCityBox  : "required"
+    
+  },
+   
+  //custom error messages
+        messages: {
+        	homeTeamNameBox:{
+          required: "Please enter your Home Team name."
+          },
+        	  oponentTeamNameBox:{
+            required: "Please enter your Oponent Team name."
+            },
+           
+            matchSelectedCoachBox:{
+            required: "Please select a coach."
+            },
+            matchSelectedPlayerBox:{
+            required: "Pease select atleast 5 players."
+                },
+                matchCityBox:{
+            required: "Pease select team home city."
+        },
+        // madatory date entry and valid date format  
+        myDate : {
+         required: true,
+                  usaDate : true
+                }
+
+        
+        },
+         
+        // on page submit 
+        submitHandler: function(){
+          var formData = form2object('scheduleMatchForm', '.', true,
+  				function(node)
+  				{
+  					if (node.id && node.id.match(/callbackTest/))
+  					{
+  						return { name: node.id, value: node.innerHTML };
+  					}
+  				})
+  				//Pick selected referee's 
+        		        	var elSel = document.getElementById('matchSelectedRefereeBox');
+        		      	   var i;
+        		      	 var referees = new  Array();
+        		      	   for (i = elSel.length - 1; i>=0; i--) {
+        		      		 if(elSel.options[i].value=="Drag Here")continue;
+        		      		referees[i] = elSel.options[i].value;
+        		      	   }
+        	
+        	  $("#scheduleMatchMainDiv").load("../csci566/ajax/insertGames.php",{formData : JSON.stringify(formData, null, '\t')},
+        			  
+        			  function( response, status, xhr ) {
+        		  if ( status == "error" ) {
+        			    var msg = "Sorry but there was an error: ";
+        			    $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
+        			  }else{
+        					  $("#scheduleMatchMainDiv1").load("../csci566/ajax/insertMatchReferee.php",{response : JSON.stringify(referees, null, '\t'),data:response});
+            		          
+        		      	   console.log( {response: JSON.stringify(referees, null, '\t')});
+        			  }
+        			  
+        			});
+         
+        }
+ 
+ 
+ });
+  
+	
+});
+</script>
+</head>
+<body>
+
+<div id="scheduleMatchMainDiv">
+
+		<div id="scheduleMatchDiv">
+			<form id="scheduleMatchForm" name="samplecode" method="POST" action="">
+				<fieldset>
+					<legend>
+						<b>&nbsp;&nbsp;&nbsp;Schedule a Game&nbsp;&nbsp;&nbsp;</b>
+					</legend>
+					<table>
+						<tr>
+							<td valign="top"><label for="myDate"> Date
+							</label></td>
+							<td><input id="myDate" type="text" name="myDate" size="10"
+								value="" />&nbsp;
+								<div class="myErrors"></div></td>
+						</tr>
+
+						<tr>
+							<td valign="top"><label for="homeTeamNameBox"> Home Team 
+							</label></td>
+							<td>
+							
+							<select id="homeTeamNameBox"  name="homeTeamNameBox"
+								 ><option value="">Choose one</option>
+							</select>
+								<td valign="top"><label for="oponentTeamNameBox"> Away Team 
+							</label></td>
+							<td><select id="oponentTeamNameBox"  name="oponentTeamNameBox"
+								 ><option value="">Choose one</option>
+							</select>
+								<div class="myErrors"></div></td>
+						</tr>
+						<tr>
+		
+							<td valign="top"><label for="matchRefereeBox"> Referee
+							</label></td>
+							<td><select id="matchRefereeBox"  name="matchRefereeBox[]" multiple="multiple" >
+								</select>
+								<span class="myErrors"></span>
+								<input type="button" value="<=" onclick="insertSelectedLeft('matchRefereeBox','matchSelectedRefereeBox');" />
+								<input type="button" value="=>" onclick="insertSelected('matchRefereeBox','matchSelectedRefereeBox');" /></td>
+						
+								<td valign="top"><label for="matchSelectedRefereeBox"> Selected 
+							</label></td>
+							<td><select id="matchSelectedRefereeBox"  name="matchSelectedRefereeBox[]" multiple="multiple" >
+										<option>Drag Here</option>
+								</select>
+								<div class="myErrors"></div></td>
+						</tr>
+					
+						<tr>
+						
+					<td valign="top"><label for="matchCityBox"> City </label>
+							
+							</td>
+							<td>
+							<input type="text" id="matchCityBox" name="matchCityBox" name="favCharacter" list="characters" maxlength="50">
+						
+							<datalist id="characters">
+							
+							 <select
+									name="favCharacter">
+										<option>Dekalb
+										<option>Sycamore
+										<option>Waterman
+										<option>Genoa
+								</select>
+							
+							</datalist>
+						</select>
+								<div class="myErrors"></div></td>
+							</td>
+						
+						<tr>
+							<td colspan="2">&nbsp;</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td><input id="scheduleMatchFormButton" type="submit"
+								value="Schedule Match" /></td>
+						</tr>
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+<div id="scheduleMatchMainDiv1"></div>
+</body>
+</html>

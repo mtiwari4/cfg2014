@@ -1,0 +1,47 @@
+<html>
+<head>
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script src="jquery.blockUI.js" ></script>
+<script type="text/javascript" src="js/jquery.form.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+	
+		var options = {
+			target : '#playerDiv', // target element(s) to be updated with server response 
+
+		};
+		$('#addPlayerInput').submit(function() {
+			$(this).ajaxSubmit(options);
+			// always return false to prevent standard browser submit and page navigation 
+			return false;
+		});
+	});
+</script>
+</head>
+<body>
+	<div id="playerDiv">
+		<form id="addPlayerInput"  action="ajax/insertPlayer.php" method="post">
+			First name: <input type="text" name="fname"><br> 
+			Last name: <input type="text" name="lname"><br> 
+			Weight: <input type="text" name="weight"><br> 
+			Height: <input type="text" name="height"><br> 
+			Position<select name="playerPositionID">
+				<option value="1">Point Gaurd</option>
+				<option value="2">Shooting Gaurd</option>
+				<option value="3">Small Forward</option>
+				<option value="4">Power Forward</option>
+				<option value="5">Center</option>
+			</select><br> 	
+			Phone: <input type="text" name="phone"><br>
+			Team<select name="playerTeam">
+				<option value="aman">Aman</option>
+				<option value="professional">Professional</option>
+			</select><br>
+			  <input type='hidden' name='submit' /> 
+			 <input type="submit" id="playerSubmit">
+			<div id="output"></div>
+		</form>
+	</div>
+</body>
+</html>

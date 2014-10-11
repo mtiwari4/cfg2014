@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>	
+	<head>
+		<title>Garden For Wildlife: Connect!</title>
+		<!--<link rel="stylesheet" href="css/jquery-ui.css">
+		<link rel="stylesheet" href="css/global.css">-->
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+	<body>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+/**
+ * @preserve
+ * Project: Bootstrap Hover Dropdown
+ * Author: Cameron Spear
+ * Version: v2.0.11
+ * Contributors: Mattia Larentis
+ * Dependencies: Bootstrap's Dropdown plugin, jQuery
+ * Description: A simple plugin to enable Bootstrap dropdowns to active on hover and provide a nice user experience.
+ * License: MIT
+ * Homepage: http://cameronspear.com/blog/bootstrap-dropdown-on-hover-plugin/
+ */
+;(function ($, window, undefined) {
+    // outside the scope of the jQuery plugin to
+    // keep track of all dropdowns
+    var $allDropdowns = $();
+
+    // if instantlyCloseOthers is true, then it will instantly
+    // shut other nav items when a new one is hovered over
+    $.fn.dropdownHover = function (options) {
+        // don't do anything if touch is supported
+        // (plugin causes some issues on mobile)
+        if('ontouchstart' in document) return this; // don't want to affect chaining
+
+        // the element we really care about
+        // is the dropdown-toggle's parent
+        $allDropdowns = $allDropdowns.add(this.parent());
+
+        return this.each(function () {
+            var $this = $(this),
+                $parent = $this.parent(),
+                defaults = {
+                    delay: 500,
+                    instantlyCloseOthers: true
+                },
+                data = {
+                    delay: $(this).data('delay'),
+                    instantlyCloseOthers: $(this).data('close-others')
+                },
+                showEvent   = 'show.bs.dropdown',
+                hideEvent   = 'hide.bs.dropdown',
+                // shownEvent  = 'shown.bs.dropdown',
+                // hiddenEvent = 'hidden.bs.dropdown',
+                settings = $.extend(true, {}, defaults, options, data),
+                timeout;
+
+            $parent.hover(function (event) {
+                // so a neighbor can't open the dropdown
+                if(!$parent.hasClass('open') && !$this.is(event.target)) {
+                    // stop this event, stop executing any code
+                    // in this callback but continue to propagate
+                    return true;
+                }
+
+                openDropdown(event);
+            }, function () {
+                timeout = window.setTimeout(function () {
+                    $parent.removeClass('open');
+                    $this.trigger(hideEvent);
+                }, settings.delay);
+            });
+
+            // this helps with button groups!
+            $this.hover(function (event) {
+                // this helps prevent a double event from firing.
+                // see https://github.com/CWSpear/bootstrap-hover-dropdown/issues/55
+                if(!$parent.hasClass('open') && !$parent.is(event.target)) {
+                    // stop this event, stop executing any code
+                    // in this callback but continue to propagate
+                    return true;
+                }
+
+                openDropdown(event);
+            });
+
+            // handle submenus
+            $parent.find('.dropdown-submenu').each(function (){
+                var $this = $(this);
+                var subTimeout;
+                $this.hover(function () {
+                    window.clearTimeout(subTimeout);
+                    $this.children('.dropdown-menu').show();
+                    // always close submenu siblings instantly
+                    $this.siblings().children('.dropdown-menu').hide();
+                }, function () {
+                    var $submenu = $this.children('.dropdown-menu');
+                    subTimeout = window.setTimeout(function () {
+                        $submenu.hide();
+                    }, settings.delay);
+                });
+            });
+
+            function openDropdown(event) {
+                $allDropdowns.find(':focus').blur();
+
+                if(settings.instantlyCloseOthers === true)
+                    $allDropdowns.removeClass('open');
+
+                window.clearTimeout(timeout);
+                $parent.addClass('open');
+                $this.trigger(showEvent);
+            }
+        });
+    };
+
+    $(document).ready(function () {
+        // apply dropdownHover to all elements with the data-hover="dropdown" attribute
+        $('[data-hover="dropdown"]').dropdownHover();
+    });
+})(jQuery, this);
+    </script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link href="css/basic_style.css" rel="stylesheet">
+
+<nav>
+
+    <!-- Single button -->
+<div class="btn-group">
+  <button id="Home" type="button" class="btn dropdown-toggle">
+    Home
+  </button>
+</div>
+
+
+<div class="btn-group">
+  <button id="Forum" type="button" class="btn dropdown-toggle" data-hover="dropdown">
+    Forum
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="http://ec2-54-80-114-223.compute-1.amazonaws.com/nwfapp">Login</a></li>
+  </ul>
+</div>
+
+<div class="btn-group">
+  <button id="Resources" type="button" class="btn dropdown-toggle" data-hover="dropdown">
+    Resources
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="http://ec2-54-80-114-223.compute-1.amazonaws.com/test/nwl/index.php">Find Plants For Your Garden</a></li>
+    <li><a href="/Plant Network">Plant Network</a></li>
+    <li><a href="/Resource Links">Resource Links</a></li>
+  </ul>
+</div>
+
+
+
+<div class="btn-group">
+  <button id="Community" type="button" class="btn dropdown-toggle" data-hover="dropdown">
+    Community
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="/Projects">Projects</a></li>
+    <li><a href="/News and Blogs">News and Blogs</a></li>
+  </ul>
+</div>
+
+<div class="btn-group">
+  <button id="MakeADifference" type="button" class="btn dropdown-toggle" data-hover="dropdown">
+    Make a Difference
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="/Donate">Donate</a></li>
+    <li><a href="/Get Started On Your Garden">Get Started On Your Garden</a></li>
+  </ul>
+</div>
+
+<div class="btn-group">
+  <button id="SignInUp" type="button" class="btn dropdown-toggle">
+    Sign In
+  </button>
+</div>
+
+</nav>
+
+
+<!--BODY STRUCTURE OF PAGE-->
+<div id="community_projects_background_img" class="title_body" style="clear:both;text-align:center;">
+	<!--<img  src= "media/find_plants_background.jpg" width="150"> -->
+
+</div>
+
+<div class="title_two_body">
+	Community Coming Together For Wildlife
+</div>
+<div class="small_body">
+	A huge range of organizations-from schools to private owner meetups-work together across the nation to provide shelter, food, water, and a place to raise young for native species.
+    <br>
+</div>
+<div class="smaller_body">
+    Are you interested in creating or joining a community or project? Try searching for one, or follow our how-to list on starting a Garden For Wildlife Community in your area!
+    <br><br>
+    <a href="http://www.nwf.org/How-to-Help/Garden-for-Wildlife/Community-Habitats.aspx">How-To Start A Garden For Wildlife Community/Project In Your Area</a>
+    <br><br>
+
+        <form id="search_bar" class="navbar-form" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+        <button class="btn btn-default">Customize Search</button>
+      </form>
+</div>
+<div class="small_body">
+</div>
+<div class="smaller_body">
+
+</div>
+
+	</body>
+
+</html>

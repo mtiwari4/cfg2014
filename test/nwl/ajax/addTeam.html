@@ -1,0 +1,55 @@
+<html>
+
+<head>
+ <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.form.min.js"></script>
+  <script src="jquery.blockUI.js"></script>
+  
+  <script type="text/javascript">
+$(document).ready(function() { 
+	
+	var options = { 
+			target:   '#teamDiv',   // target element(s) to be updated with server response 
+					
+		}; 
+	 $('#addTeamInput').submit(function() { 
+			$(this).ajaxSubmit(options);  			
+			// always return false to prevent standard browser submit and page navigation 
+			return false; 
+		}); 
+}); 
+</script>
+</head>
+<body>
+	<div id="teamDiv">
+	<form id="addTeamInput" action="ajax/insertTeam.php" method="post">
+		Team name <input type="text" name="teamname"><br> 	
+		
+		 Coach <select name="coach[]" multiple="multiple">
+			<option>Ferry</option>
+			<option>Jerry</option>
+		</select>
+	
+		Selected Coaches <select name="selectedCoaches[]" multiple="multiple">	
+		<option></option></select><br>
+		 Players <select name="players[]" multiple="multiple">
+			<option>Ferry</option>
+			<option>Jerry</option>
+		</select><br>
+		Selected Players <select name="selectedPlayers[]" multiple="multiple">	</select><br>
+		City <select name="teamCity">
+			<option value="amature">Newyork</option>
+			<option value="professional">Chicago</option>
+		</select><br>
+		 State<select name="teamState">
+			<option>Ferry</option>
+			<option>Jerry</option>
+		</select><br> 
+		Country<select name="teamCountry">
+			<option>Ferry</option>
+			<option>Jerry</option>
+		</select><br> <input type="submit" value="Submit">
+	</form>
+	</div>
+</body>
+</html>
